@@ -6,3 +6,4 @@ scipy
 imutils
 pandas
 openpyxl
+setuptools<81

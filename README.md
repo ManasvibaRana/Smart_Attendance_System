@@ -29,8 +29,8 @@ Webcam frame
                        recognised + blinked ─────────┴──► write Name, Date, Time to attendance.xlsx
 ```
 
-1. On start, every image in `photosss/` is encoded. The **file name becomes the person's name**.
-2. Each webcam frame is shrunk to 25% for fast face matching. The closest known face is chosen.
+1. `encode_faces.py` turns every image in `photosss/` into a 128-number face embedding and saves them to `encodings.npz`, so the app doesn't re-encode on every start. The **file name becomes the person's name**.
+2. Each webcam frame is shrunk to 25% for fast face matching. The closest known face is chosen, and the student's details (roll no, branch, semester) are shown from `students.db`.
 3. The eye landmarks give an **Eye Aspect Ratio (EAR)**. When the eyes stay closed for 2+ frames and then reopen, it counts as a blink.
 4. A recognised person who blinks is written to `attendance.xlsx`, but only if they aren't already marked for today.
 
@@ -63,13 +63,31 @@ photosss/
 └── Rohan_Shah.png
 ```
 
+Then encode the photos. Run this again whenever you add, change or remove a photo (only new or changed photos are re-encoded; `--all` re-encodes everything):
+
+```bash
+python encode_faces.py
+```
+
+Optionally add each student's details (roll no, branch, semester) to the SQLite database `students.db`:
+
+```bash
+python add_student.py
+```
+
 ### Run
 
 ```bash
 python Recognition.py
 ```
 
-Look at the camera and blink. You'll be marked in `attendance.xlsx`. Press **q** to quit.
+Look at the camera and blink when asked. Your details and status appear next to your face, and you're marked in `attendance.xlsx`. Press **q** to quit.
+
+To browse the student database and attendance log (with search and today's present/absent count):
+
+```bash
+python view_database.py
+```
 
 `face.py` is a small standalone demo that draws a box around the face in a single image.
 
@@ -78,9 +96,15 @@ Look at the camera and blink. You'll be marked in `attendance.xlsx`. Press **q**
 ```
 Smart_Attendace_System/
 ├── Recognition.py                         # main app: recognition + blink check + attendance
+├── encode_faces.py                        # encodes photosss/ into encodings.npz
+├── add_student.py                         # adds student details to students.db
+├── database.py                            # SQLite helpers for students.db
+├── view_database.py                       # window to browse students + attendance
 ├── face.py                                # single-image face detection demo
 ├── photosss/                              # known faces (file name = person's name)
 ├── shape_predictor_68_face_landmarks.dat  # dlib landmark model
+├── encodings.npz                          # generated face embeddings
+├── students.db                            # generated student database
 └── attendance.xlsx                        # generated attendance log
 ```
 

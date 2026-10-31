@@ -2,3 +2,8 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+encodings.npz
+students.db
+~$*
+Smart_Attendance_System*.pptx
+Smart_Attendance_System_Walkthrough.*
