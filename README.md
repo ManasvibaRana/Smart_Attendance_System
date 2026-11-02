@@ -44,8 +44,8 @@ Webcam frame
 ### Install
 
 ```bash
-git clone https://github.com/ManasvibaRana/Smart_Attendace_System.git
-cd Smart_Attendace_System
+git clone https://github.com/ManasvibaRana/Smart_Attendance_System.git
+cd Smart_Attendance_System
 python -m venv venv
 venv\Scripts\activate          # macOS/Linux: source venv/bin/activate
 pip install -r requirements.txt
@@ -94,7 +94,7 @@ python view_database.py
 ## Project structure
 
 ```
-Smart_Attendace_System/
+Smart_Attendance_System/
 ├── Recognition.py                         # main app: recognition + blink check + attendance
 ├── encode_faces.py                        # encodes photosss/ into encodings.npz
 ├── add_student.py                         # adds student details to students.db
